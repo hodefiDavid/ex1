@@ -40,8 +40,11 @@ public class WGraph_DS implements weighted_graph, Serializable {
      */
     @Override
     public boolean hasEdge(int node1, int node2) {
+
         NodeInfo temp = (NodeInfo) this.graphNodes.get(node1);
-        return temp.hasNi(node2);
+        if(temp!=null){
+        return temp.hasNi(node2);}
+        else{return false;}
     }
 
     /**
@@ -55,7 +58,7 @@ public class WGraph_DS implements weighted_graph, Serializable {
      */
     @Override
     public double getEdge(int node1, int node2) {
-        if (hasEdge(node1, node2)) {
+        if (hasEdge(node1, node2)==true) {
             NodeInfo temp = (NodeInfo) this.graphNodes.get(node1);
             double edge = temp.neighborsDis.get(node2);
             return edge;
@@ -74,6 +77,7 @@ public class WGraph_DS implements weighted_graph, Serializable {
     public void addNode(int key) {
         if (!this.graphNodes.containsKey(key)) {
             this.graphNodes.put(key, new NodeInfo(key));
+            mode_count++;
         }
     }
 
@@ -97,20 +101,25 @@ public class WGraph_DS implements weighted_graph, Serializable {
         NodeInfo a = (NodeInfo) this.getNode(node1);
         NodeInfo b = (NodeInfo) this.getNode(node2);
         if (b != null && a != null) {
-
-            if (!this.hasEdge(node1, node2)) {
-
+        double check = this.getEdge(node1, node2);
+           //check if the edge is same, if so return
+            if (check==w) {
+            return;
+            }
+            //check if the nodes already conncted if so edge-- because in the next section we add one more to the edge count
+            if (check==-1) {
+                this.edge_size++;
+            }
                 a.addNi(b);
                 b.addNi(a);
                 a.neighborsDis.put(node2, w);
                 b.neighborsDis.put(node1, w);
 
                 this.mode_count++;
-                this.edge_size++;
             }
         }
 
-    }
+
 
     /**
      * This method return a pointer (shallow copy) for a
@@ -148,7 +157,7 @@ public class WGraph_DS implements weighted_graph, Serializable {
      * and removes all edges which starts or ends at this node.
      * This method should run in O(n), |V|=n, as all the edges should be removed.
      *
-     * @param key
+     * @param key - Integet
      * @return the data of the removed node (null if none).
      */
     @Override
@@ -337,14 +346,16 @@ public class WGraph_DS implements weighted_graph, Serializable {
         }
 
         /**
-         * return true iff this<==>key are adjacent, as an e√dge between them.
+         * return true iff this<==>key are adjacent, as an edge between them.
          *
          * @param key
          * @return
          */
 
         public boolean hasNi(int key) {
-            return this.neighborNodes.containsKey(key);
+            if(this.neighborNodes.containsKey(key)==true)
+            {return true;}
+            else {return false;}
         }
 
         /**
