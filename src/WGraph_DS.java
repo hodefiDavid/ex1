@@ -5,15 +5,15 @@ import java.util.LinkedList;
 
 public class WGraph_DS implements weighted_graph, Serializable {
 
-        private HashMap<Integer, node_info> graphNodes;
-        private int edge_size;
-        private int mode_count;
+    private HashMap<Integer, node_info> graphNodes;
+    private int edge_size;
+    private int mode_count;
 
-        public WGraph_DS() {
-            this.graphNodes = new HashMap<>();
-            this.edge_size = 0;
-            this.mode_count = 0;
-        }
+    public WGraph_DS() {
+        this.graphNodes = new HashMap<>();
+        this.edge_size = 0;
+        this.mode_count = 0;
+    }
 
 
     /**
@@ -25,7 +25,8 @@ public class WGraph_DS implements weighted_graph, Serializable {
     @Override
     public node_info getNode(int key) {
         if (this.graphNodes.containsKey(key) == true) {
-            return this.graphNodes.get(key);}
+            return this.graphNodes.get(key);
+        }
         return null;
     }
 
@@ -39,8 +40,8 @@ public class WGraph_DS implements weighted_graph, Serializable {
      */
     @Override
     public boolean hasEdge(int node1, int node2) {
-    	NodeInfo temp = (NodeInfo) this.graphNodes.get(node1);
-    	return temp.hasNi(node2);  
+        NodeInfo temp = (NodeInfo) this.graphNodes.get(node1);
+        return temp.hasNi(node2);
     }
 
     /**
@@ -54,11 +55,11 @@ public class WGraph_DS implements weighted_graph, Serializable {
      */
     @Override
     public double getEdge(int node1, int node2) {
-    	if(hasEdge(node1, node2)) {
-        	NodeInfo temp = (NodeInfo) this.graphNodes.get(node1);
-    		double edge = temp.neighborsDis.get(node2);
-    		return edge;
-    	}
+        if (hasEdge(node1, node2)) {
+            NodeInfo temp = (NodeInfo) this.graphNodes.get(node1);
+            double edge = temp.neighborsDis.get(node2);
+            return edge;
+        }
         return -1;
     }
 
@@ -71,9 +72,10 @@ public class WGraph_DS implements weighted_graph, Serializable {
      */
     @Override
     public void addNode(int key) {
-    	if(!this.graphNodes.containsKey(key)) {
-    	this.graphNodes.put(key, new NodeInfo(key));
-    }}
+        if (!this.graphNodes.containsKey(key)) {
+            this.graphNodes.put(key, new NodeInfo(key));
+        }
+    }
 
     /**
      * Connect an edge between node1 and node2, with an edge with weight >=0.
@@ -86,27 +88,27 @@ public class WGraph_DS implements weighted_graph, Serializable {
      */
     @Override
     public void connect(int node1, int node2, double w) {
-    	if (w<0) {
-    		        throw new IllegalArgumentException("edge Type cannot be negative");
-    		    }
-    	if (node1 == node2)
-               return;
+        if (w < 0) {
+            throw new IllegalArgumentException("edge Type cannot be negative");
+        }
+        if (node1 == node2)
+            return;
 
-           NodeInfo a = (NodeInfo) this.getNode(node1);
-           NodeInfo b = (NodeInfo) this.getNode(node2);
-           if (b != null && a != null) {
+        NodeInfo a = (NodeInfo) this.getNode(node1);
+        NodeInfo b = (NodeInfo) this.getNode(node2);
+        if (b != null && a != null) {
 
-               if (!this.hasEdge(node1,node2)) {
+            if (!this.hasEdge(node1, node2)) {
 
-                   a.addNi(b);
-                   b.addNi(a);
-                   a.neighborsDis.put(node2, w);
-                   b.neighborsDis.put(node1, w);
+                a.addNi(b);
+                b.addNi(a);
+                a.neighborsDis.put(node2, w);
+                b.neighborsDis.put(node1, w);
 
-                   this.mode_count++;
-                   this.edge_size++;
-               }
-           }
+                this.mode_count++;
+                this.edge_size++;
+            }
+        }
 
     }
 
@@ -119,7 +121,7 @@ public class WGraph_DS implements weighted_graph, Serializable {
      */
     @Override
     public Collection<node_info> getV() {
-    	
+
         return this.graphNodes.values();
     }
 
@@ -133,11 +135,11 @@ public class WGraph_DS implements weighted_graph, Serializable {
      */
     @Override
     public Collection<node_info> getV(int node_id) {
-    	
-    	if(this.graphNodes.containsKey(node_id)) {
-        	NodeInfo temp = (NodeInfo) this.graphNodes.get(node_id);
-    		return temp.getNi();
-    	}
+
+        if (this.graphNodes.containsKey(node_id)) {
+            NodeInfo temp = (NodeInfo) this.graphNodes.get(node_id);
+            return temp.getNi();
+        }
         return null;
     }
 
@@ -151,29 +153,28 @@ public class WGraph_DS implements weighted_graph, Serializable {
      */
     @Override
     public node_info removeNode(int key) {
-    	
-    	NodeInfo temp = (NodeInfo) this.graphNodes.get(key);
-           if (temp != null) {
 
-               this.graphNodes.remove(key);
+        NodeInfo temp = (NodeInfo) this.graphNodes.get(key);
+        if (temp != null) {
 
-               LinkedList<node_info> ll = new LinkedList<>(temp.getNi());
+            this.graphNodes.remove(key);
 
-               for (node_info i : ll) {
-                   edge_size--;
-                   mode_count++;
-                   int tempKey  = i.getKey();
-                   NodeInfo temp1 = (NodeInfo) this.graphNodes.get(tempKey);
-                   temp1.removeNode(temp);
-                   temp.removeNode(temp1);
-               }
+            LinkedList<node_info> ll = new LinkedList<>(temp.getNi());
 
-           }
+            for (node_info i : ll) {
+                edge_size--;
+                mode_count++;
+                int tempKey = i.getKey();
+                NodeInfo temp1 = (NodeInfo) this.graphNodes.get(tempKey);
+                temp1.removeNode(temp);
+                temp.removeNode(temp1);
+            }
 
-           return temp;
-       }
-    	
-    
+        }
+
+        return temp;
+    }
+
 
     /**
      * Delete the edge from the graph,
@@ -184,12 +185,12 @@ public class WGraph_DS implements weighted_graph, Serializable {
      */
     @Override
     public void removeEdge(int node1, int node2) {
-       
-    	if (this.graphNodes.containsKey(node1) && this.graphNodes.containsKey(node2)) {
+
+        if (this.graphNodes.containsKey(node1) && this.graphNodes.containsKey(node2)) {
             NodeInfo a = (NodeInfo) this.getNode(node1);
             NodeInfo b = (NodeInfo) this.getNode(node2);
-           
-            if (this.hasEdge(node1,node2)) {
+
+            if (this.hasEdge(node1, node2)) {
 
                 a.getNi().remove(b);
                 b.getNi().remove(a);
@@ -198,7 +199,7 @@ public class WGraph_DS implements weighted_graph, Serializable {
 
                 edge_size--;
                 mode_count++;
-          }
+            }
         }
     }
 
@@ -234,13 +235,13 @@ public class WGraph_DS implements weighted_graph, Serializable {
     public int getMC() {
         return this.mode_count;
     }
-    
- 
+
+
     /**
      * return String that represent the graph.
      *
      * @return String
-     */   
+     */
     @Override
     public String toString() {
         String s = "";
@@ -251,9 +252,36 @@ public class WGraph_DS implements weighted_graph, Serializable {
                 "\nneighborNodes " + s +
                 '}';
     }
-    
-    
-    private class NodeInfo implements node_info,Comparable<node_info>,Serializable {
+
+    /**
+     * return true if the two graph are equal.
+     *
+     * @return boolean
+     */
+    public boolean equals(WGraph_DS g) {
+        //check if the size equal in both of the graphs if not return false
+        if (this.graphNodes.size() == g.getV().size()) {
+            //check if the graphs have the same keys if not return false
+            for (node_info i : this.getV()) {
+                if (g.getNode(i.getKey()) == null) {
+                    return false;
+                }
+            }
+            //check if the graphs have the same neighbors and the same distance between each node if not return false
+            for (node_info i : this.getV()) {
+                for (node_info n : this.getV(i.getKey())) {
+                    if (g.getEdge(i.getKey(), n.getKey()) != this.getEdge(i.getKey(), n.getKey())) {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    private class NodeInfo implements node_info, Comparable<node_info>, Serializable {
 
         private int key;
         private HashMap<Integer, node_info> neighborNodes;
@@ -261,22 +289,22 @@ public class WGraph_DS implements weighted_graph, Serializable {
         private double Tag;
         private String remark;
 
-        public NodeInfo(int key){
-            this.key=key;
+        public NodeInfo(int key) {
+            this.key = key;
             this.neighborNodes = new HashMap<>();
             this.neighborsDis = new HashMap<>();
-            this.remark="";
+            this.remark = "";
             this.setTag(-1);
         }
 
-    //copying without neighbors
-    public NodeInfo(NodeInfo n){
-            this.key=n.getKey();
-            this.remark=n.getInfo();
+        //copying without neighbors
+        public NodeInfo(NodeInfo n) {
+            this.key = n.getKey();
+            this.remark = n.getInfo();
             this.setTag(n.getTag());
             this.neighborNodes = new HashMap<>();
             this.neighborsDis = new HashMap<>();
-    }
+        }
 
 
         /**
@@ -293,16 +321,17 @@ public class WGraph_DS implements weighted_graph, Serializable {
         /**
          * This method returns a collection with all the Neighbor nodes of this node_info
          */
-        
+
         public Collection<node_info> getNi() {
-        	return this.neighborNodes.values();        	
+            return this.neighborNodes.values();
         }
+
         /**
          * This method returns a collection with all the Neighbor nodes of this node_info ande thir distance
          */
-        
+
         public Collection<Double> getNiDis() {
-        	return this.neighborsDis.values();        	
+            return this.neighborsDis.values();
         }
 
         /**
@@ -311,7 +340,7 @@ public class WGraph_DS implements weighted_graph, Serializable {
          * @param key
          * @return
          */
-        
+
         public boolean hasNi(int key) {
             return this.neighborNodes.containsKey(key);
         }
@@ -321,11 +350,11 @@ public class WGraph_DS implements weighted_graph, Serializable {
          *
          * @param t
          */
-        
+
         public void addNi(NodeInfo t) {
-        if(!this.neighborNodes.containsKey(t.getKey())){
-            this.neighborNodes.put(t.getKey(),t);
-        }
+            if (!this.neighborNodes.containsKey(t.getKey())) {
+                this.neighborNodes.put(t.getKey(), t);
+            }
         }
 
         /**
@@ -333,13 +362,13 @@ public class WGraph_DS implements weighted_graph, Serializable {
          *
          * @param node
          */
-        
+
         public void removeNode(NodeInfo node) {
-        int key = node.getKey();	
-        if(this.neighborNodes.containsKey(key)){
-            this.neighborNodes.remove(key);
-            this.neighborsDis.remove(key);
-        }
+            int key = node.getKey();
+            if (this.neighborNodes.containsKey(key)) {
+                this.neighborNodes.remove(key);
+                this.neighborsDis.remove(key);
+            }
         }
 
         /**
@@ -347,7 +376,7 @@ public class WGraph_DS implements weighted_graph, Serializable {
          *
          * @return
          */
-        
+
         public String getInfo() {
             return this.remark;
         }
@@ -357,9 +386,9 @@ public class WGraph_DS implements weighted_graph, Serializable {
          *
          * @param s
          */
-        
+
         public void setInfo(String s) {
-            this.remark=s;
+            this.remark = s;
         }
 
         /**
@@ -378,27 +407,28 @@ public class WGraph_DS implements weighted_graph, Serializable {
          *
          * @param t - the new value of the tag
          */
-        
+
         public void setTag(double t) {
-            this.Tag=t;
+            this.Tag = t;
 
         }
 
         @Override
         public String toString() {
-           return  "{" +key+"}";
+            return "{" + key + "}";
         }
 
-		@Override
-		public int compareTo(node_info o) {
+        @Override
+        public int compareTo(node_info o) {
 
-			if(this.Tag>o.getTag())
-				return 1;
-			if(this.Tag<o.getTag())
-				return -1;
-			
-			return 0;
-		}
-        
-        
-    }}
+            if (this.Tag > o.getTag())
+                return 1;
+            if (this.Tag < o.getTag())
+                return -1;
+
+            return 0;
+        }
+
+
+    }
+}

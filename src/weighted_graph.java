@@ -90,4 +90,5 @@ public interface weighted_graph {
      * @return
      */
     public int getMC();
+
 }

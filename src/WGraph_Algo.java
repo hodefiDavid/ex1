@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Stack;
+import java.util.*;
 
 public class WGraph_Algo implements weighted_graph_algorithms {
 
@@ -11,6 +8,13 @@ public class WGraph_Algo implements weighted_graph_algorithms {
 	// default constructor
 	public WGraph_Algo() {
 	}
+
+
+	@Override
+	public boolean equals(weighted_graph_algorithms wga) {
+		return this.g.equals(wga.getGraph());
+	}
+
 
 	public WGraph_Algo(weighted_graph g) {
 		init(g);
