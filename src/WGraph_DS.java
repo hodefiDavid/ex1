@@ -258,19 +258,21 @@ public class WGraph_DS implements weighted_graph, Serializable {
      *
      * @return boolean
      */
-    public boolean equals(WGraph_DS g) {
+    @Override
+    public boolean equals(Object g) {
         //check if the size equal in both of the graphs if not return false
-        if (this.graphNodes.size() == g.getV().size()) {
+        WGraph_DS temp = (WGraph_DS) g;
+        if (this.graphNodes.size() == temp.getV().size()) {
             //check if the graphs have the same keys if not return false
             for (node_info i : this.getV()) {
-                if (g.getNode(i.getKey()) == null) {
+                if (temp.getNode(i.getKey()) == null) {
                     return false;
                 }
             }
             //check if the graphs have the same neighbors and the same distance between each node if not return false
             for (node_info i : this.getV()) {
                 for (node_info n : this.getV(i.getKey())) {
-                    if (g.getEdge(i.getKey(), n.getKey()) != this.getEdge(i.getKey(), n.getKey())) {
+                    if (temp.getEdge(i.getKey(), n.getKey()) != this.getEdge(i.getKey(), n.getKey())) {
                         return false;
                     }
                 }

@@ -10,11 +10,6 @@ public class WGraph_Algo implements weighted_graph_algorithms {
 	}
 
 
-	@Override
-	public boolean equals(weighted_graph_algorithms wga) {
-		return this.g.equals(wga.getGraph());
-	}
-
 
 	public WGraph_Algo(weighted_graph g) {
 		init(g);
