@@ -177,7 +177,7 @@ public class WGraph_Algo implements weighted_graph_algorithms {
 			if (temp != null) {
 				for (node_info i : g.getV(temp.getKey())) {
 					double edge = this.g.getEdge(temp.getKey(), i.getKey());
-					double SEdge = edge + temp.getTag();// i.getTag() == -1 ||
+					double SEdge = edge + temp.getTag();
 					if (i.getTag() == -1 || (i.getTag() > SEdge && i.getTag() != 0)) {
 						q.add(i);
 						i.setTag(SEdge);
